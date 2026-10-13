@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.VolumeOff
 import androidx.compose.material.icons.filled.Coffee
 import androidx.compose.material.icons.filled.GraphicEq
-import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material.icons.filled.Waves
 import androidx.compose.material3.ElevatedCard
@@ -77,7 +77,7 @@ fun AmbientSoundSelector(
                 AmbientSoundType.values().forEach { sound ->
                     val isSelected = selectedSound == sound
                     val icon: ImageVector = when (sound) {
-                        AmbientSoundType.OFF -> Icons.Default.VolumeOff
+                        AmbientSoundType.OFF -> Icons.AutoMirrored.Filled.VolumeOff
                         AmbientSoundType.RAIN -> Icons.Default.WaterDrop
                         AmbientSoundType.BINAURAL -> Icons.Default.Waves
                         AmbientSoundType.WHITE_NOISE -> Icons.Default.GraphicEq
