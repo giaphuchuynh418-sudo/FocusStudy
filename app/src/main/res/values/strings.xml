@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FocusStudy</string>
+    <string name="tab_timer">Đồng Hồ</string>
+    <string name="tab_flashcards">Thẻ Ghi Nhớ</string>
+    <string name="tab_planner">Kế Hoạch</string>
+    <string name="tab_stats">Thống Kê</string>
+    <string name="tab_notes">Sổ Tay</string>
+</resources>

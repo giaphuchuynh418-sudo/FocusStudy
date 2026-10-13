@@ -1,0 +1,62 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidUserProfile(data, userId) {
+      return data.userId == userId &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+        data.email is string && data.email.size() > 0 && data.email.size() <= 150 &&
+        data.dailyGoalMinutes is int && data.dailyGoalMinutes >= 15 && data.dailyGoalMinutes <= 720 &&
+        data.updatedAt is timestamp && data.updatedAt <= request.time;
+    }
+
+    function isValidStudySession(data, userId) {
+      return data.userId == userId &&
+        data.sessionId is string && data.sessionId.size() > 0 && data.sessionId.size() <= 100 &&
+        data.subjectName is string && data.subjectName.size() > 0 && data.subjectName.size() <= 100 &&
+        data.durationMinutes is int && data.durationMinutes > 0 && data.durationMinutes <= 1440 &&
+        data.sessionType is string && data.sessionType in ['POMODORO', 'SHORT_BREAK', 'LONG_BREAK', 'STOPWATCH'] &&
+        (!('note' in data) || (data.note is string && data.note.size() <= 500)) &&
+        data.createdAt is timestamp && data.createdAt <= request.time;
+    }
+
+    function isValidStudyTask(data, userId) {
+      return data.userId == userId &&
+        data.taskId is string && data.taskId.size() > 0 && data.taskId.size() <= 100 &&
+        data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
+        data.subjectName is string && data.subjectName.size() > 0 && data.subjectName.size() <= 100 &&
+        data.isCompleted is bool &&
+        (!('dueDateEpoch' in data) || data.dueDateEpoch is int) &&
+        (!('estimatedPomodoros' in data) || (data.estimatedPomodoros is int && data.estimatedPomodoros >= 0 && data.estimatedPomodoros <= 50)) &&
+        (!('completedPomodoros' in data) || (data.completedPomodoros is int && data.completedPomodoros >= 0 && data.completedPomodoros <= 50)) &&
+        (!('priority' in data) || (data.priority is string && data.priority in ['LOW', 'MEDIUM', 'HIGH'])) &&
+        data.createdAt is timestamp && data.createdAt <= request.time;
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId) && isValidUserProfile(request.resource.data, userId);
+      allow delete: if isOwner(userId);
+
+      match /sessions/{sessionId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidStudySession(request.resource.data, userId);
+        allow delete: if isOwner(userId);
+      }
+
+      match /tasks/{taskId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidStudyTask(request.resource.data, userId);
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}

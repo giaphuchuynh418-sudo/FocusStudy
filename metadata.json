@@ -1,0 +1,6 @@
+{
+  "name": "FocusStudy",
+  "description": "Ứng dụng học tập thông minh: Đồng hồ Pomodoro âm thanh thư giãn, thẻ ghi nhớ flashcard lặp lại ngắt quãng, kế hoạch học tập và thống kê tiến độ.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

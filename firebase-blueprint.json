@@ -1,0 +1,133 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with study settings and goals",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Authenticated user UID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the learner"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address"
+        },
+        "dailyGoalMinutes": {
+          "type": "integer",
+          "description": "Target daily study duration in minutes"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update server timestamp"
+        }
+      },
+      "required": ["userId", "name", "email", "dailyGoalMinutes", "updatedAt"]
+    },
+    "StudySession": {
+      "title": "StudySession",
+      "description": "A logged focus or Pomodoro session",
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "description": "Unique session identifier"
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of the session owner"
+        },
+        "subjectName": {
+          "type": "string",
+          "description": "Subject studied"
+        },
+        "durationMinutes": {
+          "type": "integer",
+          "description": "Duration in minutes"
+        },
+        "sessionType": {
+          "type": "string",
+          "description": "POMODORO, SHORT_BREAK, LONG_BREAK, STOPWATCH"
+        },
+        "note": {
+          "type": "string",
+          "description": "Optional user notes for this session"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when session occurred"
+        }
+      },
+      "required": ["sessionId", "userId", "subjectName", "durationMinutes", "sessionType", "createdAt"]
+    },
+    "StudyTask": {
+      "title": "StudyTask",
+      "description": "A study plan task or assignment",
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "description": "Unique task identifier"
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of the task owner"
+        },
+        "title": {
+          "type": "string",
+          "description": "Task title"
+        },
+        "subjectName": {
+          "type": "string",
+          "description": "Subject name"
+        },
+        "dueDateEpoch": {
+          "type": "integer",
+          "description": "Due date in milliseconds epoch"
+        },
+        "isCompleted": {
+          "type": "boolean",
+          "description": "Whether task is completed"
+        },
+        "estimatedPomodoros": {
+          "type": "integer",
+          "description": "Target pomodoros"
+        },
+        "completedPomodoros": {
+          "type": "integer",
+          "description": "Completed pomodoros"
+        },
+        "priority": {
+          "type": "string",
+          "description": "LOW, MEDIUM, HIGH"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": ["taskId", "userId", "title", "subjectName", "isCompleted", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile documents stored by UID"
+    },
+    "/users/{userId}/sessions/{sessionId}": {
+      "schema": "StudySession",
+      "description": "Study and pomodoro sessions logged by the user"
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": "StudyTask",
+      "description": "Study plan tasks owned by the user"
+    }
+  }
+}
