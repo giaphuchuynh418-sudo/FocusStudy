@@ -1,4 +1,4 @@
-🎓 FocusStudy
+<h1 align="center">🎓FocusStudy</h1>
 
 Learn smarter. Focus better. Achieve more.
 
