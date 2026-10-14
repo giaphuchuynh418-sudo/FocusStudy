@@ -17,11 +17,9 @@ The FocusStudy Beta APK is now available!
 
 Download the APK from the repository’s Releases section and install it on your Android device.
 
-Note: This is a beta version. Bugs and unexpected issues may occur.
-
-🚧 Project Status
-
-Currently in Beta.
+<blockquote>
+  <strong>Note:</strong> This is a beta version. Bugs and unexpected issues may occur.
+</blockquote>
 
 ⸻
 
